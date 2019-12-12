@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">RockPaperScissors</string>
-</resources>
+
+    <string name="robot_emoji">🤖</string>
+    <string name="rock_emoji">👊</string>
+    <string name="paper_emoji">✋</string>
+    <string name="scissors_emoji">✌</string>
+
+    <string name="main_status_text">Select one option</string>
+    <string name="win_status_text">You Win!</string>
+    <string name="lose_status_text">You Lose</string>
+    <string name="tie_status_text">It\'s a tie</string>
+
+    <string name="playAgain_button_text">Play Again</string>
+    </resources>
