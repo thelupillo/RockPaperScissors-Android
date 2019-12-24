@@ -3,4 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="win_backgroundColor">#64DD17</color>
+    <color name="tie_backgroundColor">#0091EA</color>
+    <color name="lose_backgroundColor">#D50000</color>
+    <color name="default_backgroundColor">#FFFFFF</color>
 </resources>
