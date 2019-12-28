@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     TextView robotEmojiTextView, appNameTextView, statusTextView;
     Button rockButton, paperButton, scissorsButton, playAgainButton;
 
+    public final int ROCK_OPTION = 0, PAPER_OPTION = 1, SCISSORS_OPTION = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,88 +39,95 @@ public class MainActivity extends AppCompatActivity {
         rockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Make invisible the other buttons
-                paperButton.setVisibility(View.INVISIBLE);
-                scissorsButton.setVisibility(View.INVISIBLE);
-
-                // Make visible the "Play Again" button
-                playAgainButton.setVisibility(View.VISIBLE);
-
-                // The pressed button make not clickable
-                rockButton.setClickable(false);
-
-                fightWithRobot("rock");
-
+                optionSelected(ROCK_OPTION);
             }
         });
         paperButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Make invisible the other buttons
-                rockButton.setVisibility(View.INVISIBLE);
-                scissorsButton.setVisibility(View.INVISIBLE);
-
-                // Make visible the "Play Again" button
-                playAgainButton.setVisibility(View.VISIBLE);
-
-                // The pressed button make not clickable
-                paperButton.setClickable(false);
-
-                fightWithRobot("paper");
+                optionSelected(PAPER_OPTION);
             }
         });
         scissorsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Make invisible the other buttons
-                rockButton.setVisibility(View.INVISIBLE);
-                paperButton.setVisibility(View.INVISIBLE);
-
-                // Make visible the "Play Again" button
-                playAgainButton.setVisibility(View.VISIBLE);
-
-                // The pressed button make not clickable
-                scissorsButton.setClickable(false);
-
-                fightWithRobot("scissors");
+                optionSelected(SCISSORS_OPTION);
             }
         });
         playAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Change the background color to default
-                mainConstraintLayout.setBackgroundColor(getResources().getColor(R.color.default_backgroundColor, getTheme()));
-
-                // Make visible all the other buttons
-                rockButton.setVisibility(View.VISIBLE);
-                paperButton.setVisibility(View.VISIBLE);
-                scissorsButton.setVisibility(View.VISIBLE);
-
-                // Make clickable all the other buttons
-                rockButton.setClickable(true);
-                paperButton.setClickable(true);
-                scissorsButton.setClickable(true);
-
-                // Make invisible the "Play Again" button
-                playAgainButton.setVisibility(View.INVISIBLE);
-
-                // Set the default robot emoji
-                robotEmojiTextView.setText(R.string.robot_emoji);
-
-                // Set the default status message
-                statusTextView.setText(R.string.main_status_text);
+                resetAll();
             }
         });
     }
 
-    public String getRandomOption() {
+    public void optionSelected(int userOption) {
+        switch (userOption) {
+            case ROCK_OPTION:
+                // Make invisible the other buttons
+                paperButton.setVisibility(View.INVISIBLE);
+                scissorsButton.setVisibility(View.INVISIBLE);
+
+                // The pressed button make not clickable
+                rockButton.setClickable(false);
+                break;
+            case PAPER_OPTION:
+                // Make invisible the other buttons
+                rockButton.setVisibility(View.INVISIBLE);
+                scissorsButton.setVisibility(View.INVISIBLE);
+
+                // The pressed button make not clickable
+                paperButton.setClickable(false);
+                break;
+            case SCISSORS_OPTION:
+                // Make invisible the other buttons
+                rockButton.setVisibility(View.INVISIBLE);
+                paperButton.setVisibility(View.INVISIBLE);
+
+                // The pressed button make not clickable
+                scissorsButton.setClickable(false);
+                break;
+        }
+
+        fightWithRobot(userOption);
+
+        // Make visible the "Play Again" button
+        playAgainButton.setVisibility(View.VISIBLE);
+    }
+
+    public void resetAll() {
+        // Change the background color to default
+        mainConstraintLayout.setBackgroundColor(getResources().getColor(R.color.default_backgroundColor, getTheme()));
+
+        // Make visible all the other buttons
+        rockButton.setVisibility(View.VISIBLE);
+        paperButton.setVisibility(View.VISIBLE);
+        scissorsButton.setVisibility(View.VISIBLE);
+
+        // Make clickable all the other buttons
+        rockButton.setClickable(true);
+        paperButton.setClickable(true);
+        scissorsButton.setClickable(true);
+
+        // Make invisible the "Play Again" button
+        playAgainButton.setVisibility(View.INVISIBLE);
+
+        // Set the default robot emoji
+        robotEmojiTextView.setText(R.string.robot_emoji);
+
+        // Set the default status message
+        statusTextView.setText(R.string.main_status_text);
+    }
+
+    public int getRandomOption() {
         switch (((Double) (Math.random() * 3)).intValue()) {
-            case 0:
-                return "rock";
-            case 1:
-                return "paper";
+            case ROCK_OPTION:
+                return ROCK_OPTION;
+            case PAPER_OPTION:
+                return PAPER_OPTION;
             default:
-                return "scissors";
+                return SCISSORS_OPTION;
         }
     }
 
@@ -135,36 +144,54 @@ public class MainActivity extends AppCompatActivity {
         mainConstraintLayout.setBackgroundColor(getResources().getColor(R.color.tie_backgroundColor, getTheme()));
     }
 
-    public void fightWithRobot(String userOption) {
+    public void fightWithRobot(int userOption) {
         switch (getRandomOption()) {
-            case "rock":
+            case ROCK_OPTION:
+                // Change the emoji of the robot's option
                 robotEmojiTextView.setText(R.string.rock_emoji);
-                if (userOption.equals("paper")) {
-                    winGame();
-                } else if (userOption.equals("scissors")) {
-                    loseGame();
-                } else {
-                    tieGame();
+
+                switch (userOption) {
+                    case ROCK_OPTION:
+                        tieGame();
+                        break;
+                    case PAPER_OPTION:
+                        winGame();
+                        break;
+                    case SCISSORS_OPTION:
+                        loseGame();
+                        break;
                 }
                 break;
-            case "paper":
+            case PAPER_OPTION:
+                // Change the emoji of the robot's option
                 robotEmojiTextView.setText(R.string.paper_emoji);
-                if (userOption.equals("rock")) {
-                    loseGame();
-                } else if (userOption.equals("scissors")) {
-                    winGame();
-                } else {
-                    tieGame();
+
+                switch (userOption) {
+                    case ROCK_OPTION:
+                        loseGame();
+                        break;
+                    case PAPER_OPTION:
+                        tieGame();
+                        break;
+                    case SCISSORS_OPTION:
+                        winGame();
+                        break;
                 }
                 break;
-            case "scissors":
+            case SCISSORS_OPTION:
+                // Change the emoji of the robot's option
                 robotEmojiTextView.setText(R.string.scissors_emoji);
-                if (userOption.equals("rock")) {
-                    winGame();
-                } else if (userOption.equals("paper")) {
-                    loseGame();
-                } else {
-                    tieGame();
+
+                switch (userOption) {
+                    case ROCK_OPTION:
+                        winGame();
+                        break;
+                    case PAPER_OPTION:
+                        loseGame();
+                        break;
+                    case SCISSORS_OPTION:
+                        tieGame();
+                        break;
                 }
                 break;
         }
